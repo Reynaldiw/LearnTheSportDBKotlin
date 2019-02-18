@@ -1,12 +1,12 @@
 package com.reynaldiwijaya.learnthesportdbkotlin.View
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import com.reynaldiwijaya.learnthesportdbkotlin.Adapter.BolaAdapter
 import com.reynaldiwijaya.learnthesportdbkotlin.Model.TeamData
@@ -14,7 +14,7 @@ import com.reynaldiwijaya.learnthesportdbkotlin.Presenter.Contract
 import com.reynaldiwijaya.learnthesportdbkotlin.Presenter.TeamPresenter
 import com.reynaldiwijaya.learnthesportdbkotlin.R
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.sdk25.coroutines.onItemSelectedListener
+import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity(), Contract.View {
 
@@ -58,7 +58,9 @@ class MainActivity : AppCompatActivity(), Contract.View {
     override fun showData(listDataItems: List<TeamData>) {
         rv_main.hasFixedSize()
         rv_main.layoutManager = LinearLayoutManager(this)
-        rv_main.adapter = BolaAdapter(this, listDataItems)
+        rv_main.adapter = BolaAdapter(this, listDataItems){
+            startActivity<DetailActivity>("idClub" to it.teamId)
+        }
     }
 
     override fun showFailureMessage(error: String?) {

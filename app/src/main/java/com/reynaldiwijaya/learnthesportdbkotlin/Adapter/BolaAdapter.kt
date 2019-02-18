@@ -9,8 +9,9 @@ import com.bumptech.glide.Glide
 import com.reynaldiwijaya.learnthesportdbkotlin.Model.TeamData
 import com.reynaldiwijaya.learnthesportdbkotlin.R
 import kotlinx.android.synthetic.main.item_club.view.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
 
-class BolaAdapter (val context: Context, val teamDataItems : List<TeamData>) : RecyclerView.Adapter<BolaAdapter.ViewHolder>() {
+class BolaAdapter (val context: Context, val teamDataItems : List<TeamData>, val listener : (TeamData) -> Unit) : RecyclerView.Adapter<BolaAdapter.ViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_club, p0, false)
         return ViewHolder(view)
@@ -21,18 +22,21 @@ class BolaAdapter (val context: Context, val teamDataItems : List<TeamData>) : R
     }
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        p0.bindItems(teamDataItems[p1])
+        p0.bindItems(teamDataItems[p1], listener)
     }
 
     class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         val namaClub = view.tv_team
         val gambarClub = view.img_club
 
-        fun bindItems (teamData : TeamData) {
+        fun bindItems (teamData : TeamData, listener: (TeamData) -> Unit) {
             namaClub.text = teamData.teamName
             Glide.with(itemView.context)
                 .load(teamData.imageClub)
                 .into(gambarClub)
+            itemView.onClick {
+                listener(teamData)
+            }
         }
 
     }
