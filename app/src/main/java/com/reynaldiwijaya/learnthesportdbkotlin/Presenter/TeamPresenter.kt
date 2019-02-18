@@ -16,11 +16,11 @@ class TeamPresenter (model : Contract.View) : Contract.Presenter {
         view = model
     }
 
-    override fun getData() {
+    override fun getData(league : String) {
         view?.showLoading()
 
         val apiClient = ApiInterface.create()
-        apiClient.getClub("English Premier League").enqueue(object : Callback<TeamResponse> {
+        apiClient.getClub(league).enqueue(object : Callback<TeamResponse> {
 
             override fun onResponse(call: Call<TeamResponse>, response: Response<TeamResponse>) {
                 view?.hideLoading()

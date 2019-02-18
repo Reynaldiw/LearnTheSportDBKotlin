@@ -10,6 +10,6 @@ interface Contract {
         fun showFailureMessage(error : String? = null)
     }
     interface Presenter {
-        fun getData()
+        fun getData(league : String)
     }
 }
